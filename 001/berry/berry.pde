@@ -1,7 +1,7 @@
 //float r, g, b;
 float h, s, v;
-final float PARAM_H = 0.004;
-final float PARAM_S = 0.1;
+final float PARAM_H = 0.001;
+final float PARAM_S = 0.03;
 final float PARAM_V = 0.007;
 
 void setup (){
@@ -11,9 +11,9 @@ void setup (){
   noStroke();
   smooth();
   
-  h = 0;
-  s = 0;
-  v = 0;
+  h = 0; // 
+  s = 0; // 0: dull white -> 100: 
+  v = 0; // 0: dark black -> 100: blight
 }
 
 void draw(){
@@ -22,9 +22,9 @@ void draw(){
   h += PARAM_H;
   s += PARAM_S;
   v += PARAM_V;
-  int r_normed = (int)map(noise(h), 0, 1, 0, 120);
-  int g_normed = (int)map(noise(s), 0, 1, 100, 255);
-  int b_normed = (int)map(noise(v), 0, 1, 0, 120);
+  int r_normed = (int)map(noise(h), 0, 1, 0, 3600);
+  int g_normed = (int)map(noise(s), 0, 1, 80, 100);
+  int b_normed = (int)map(noise(v), 0, 1, 80, 100);
   
   println(r_normed + "  " + g_normed + "  " + b_normed);
   fill(r_normed, g_normed, b_normed);
