@@ -1,5 +1,7 @@
-float r;
-final float PARAM_R = 1.3;
+float r, g, b;
+final float PARAM_R = 0.04;
+final float PARAM_G = 0.1;
+final float PARAM_B = 0.07;
 
 void setup (){
   size(800, 300);
@@ -7,13 +9,19 @@ void setup (){
   smooth();
   
   r = 0;
+  g = 0;
+  b = 0;
 }
 
 void draw(){
-  
+//  background(128);
   r += PARAM_R;
-  int r_normed = (int)map(r, 0, 1, 0, 255);
-  stroke(color(r_normed, 0, 0));
+  g += PARAM_G;
+  b += PARAM_B;
+  int r_normed = (int)map(r, 0, 1, 128, 255);
+  int g_normed = (int)map(g, 0, 1, 128, 255);
+  int b_normed = (int)map(b, 0, 1, 128, 255);
+  stroke(color(r_normed, g_normed, b_normed));
   
   ellipse(50 + 800/4, 300/2, 260, 260);
   ellipse(-50 + 800/4 * 3, 300/2, 260, 260);
