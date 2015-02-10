@@ -5,7 +5,7 @@ final float PARAM_B = 0.007;
 
 void setup (){
   size(800, 300);
-  blendMode(ADD);  // p5 2+
+  blendMode(LIGHTEST);  // p5 2+  https://processing.org/reference/blendMode_.html
   noStroke();
   smooth();
   
@@ -15,14 +15,7 @@ void setup (){
 }
 
 void draw(){
-  // fill black inside the circles
-  fill(128);
-  ellipse(50 + 800/4, 300/2, 260, 260);
-  ellipse(-50 + 800/4 * 3, 300/2, 260, 260);  
   
-  // fill rings with changing color
-  // not well tuned yet
-  fill(128);
   background(128);
   r += PARAM_R;
   g += PARAM_G;
@@ -33,9 +26,20 @@ void draw(){
   
   println(r_normed + "  " + g_normed + "  " + b_normed);
   fill(r_normed, g_normed, b_normed);
-  
-  ellipse(100 + 800/4, 300/2, 260, 260);
+
+  ellipse(120 + 800/4, 300/2, 260, 260);
   
   fill(244, 244, 244);
-  ellipse(-100 + 800/4 * 3, 300/2, 260, 260);
+  ellipse(-120 + 800/4 * 3, 300/2, 260, 260);
 }
+
+//BLEND - linear interpolation of colours: C = A*factor + B. This is the default blending mode.
+//ADD - additive blending with white clip: C = min(A*factor + B, 255)
+//SUBTRACT - subtractive blending with black clip: C = max(B - A*factor, 0)
+//DARKEST - only the darkest colour succeeds: C = min(A*factor, B)
+//LIGHTEST - only the lightest colour succeeds: C = max(A*factor, B)
+//DIFFERENCE - subtract colors from underlying image.
+//EXCLUSION - similar to DIFFERENCE, but less extreme.
+//MULTIPLY - multiply the colors, result will always be darker.
+//SCREEN - opposite multiply, uses inverse values of the colors.
+//REPLACE - the pixels entirely replace the others and don't utilize alpha (transparency) values
