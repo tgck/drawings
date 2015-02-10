@@ -1,36 +1,37 @@
-float r, g, b;
-final float PARAM_R = 0.004;
-final float PARAM_G = 0.1;
-final float PARAM_B = 0.007;
+//float r, g, b;
+float h, s, v;
+final float PARAM_H = 0.004;
+final float PARAM_S = 0.1;
+final float PARAM_V = 0.007;
 
 void setup (){
   size(800, 300);
   colorMode(HSB, 3600, 100, 100);
-  blendMode(LIGHTEST);  // p5 2+  https://processing.org/reference/blendMode_.html
+  //blendMode(LIGHTEST);  // p5 2+  https://processing.org/reference/blendMode_.html
   noStroke();
   smooth();
   
-  r = 0;
-  g = 0;
-  b = 0;
+  h = 0;
+  s = 0;
+  v = 0;
 }
 
 void draw(){
   
   background(128);
-  r += PARAM_R;
-  g += PARAM_G;
-  b += PARAM_B;
-  int r_normed = (int)map(noise(r), 0, 1, 0, 120);
-  int g_normed = (int)map(noise(g), 0, 1, 100, 255);
-  int b_normed = (int)map(noise(b), 0, 1, 0, 120);
+  h += PARAM_H;
+  s += PARAM_S;
+  v += PARAM_V;
+  int r_normed = (int)map(noise(h), 0, 1, 0, 120);
+  int g_normed = (int)map(noise(s), 0, 1, 100, 255);
+  int b_normed = (int)map(noise(v), 0, 1, 0, 120);
   
   println(r_normed + "  " + g_normed + "  " + b_normed);
   fill(r_normed, g_normed, b_normed);
 
   ellipse(120 + 800/4, 300/2, 260, 260);
   
-  fill(244, 244, 244);
+  fill(0, 0, 100);
   ellipse(-120 + 800/4 * 3, 300/2, 260, 260);
 }
 
