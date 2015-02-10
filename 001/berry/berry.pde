@@ -14,14 +14,23 @@ void setup (){
 }
 
 void draw(){
-//  background(128);
+  // fill black inside the circles
+  fill(0);
+  ellipse(50 + 800/4, 300/2, 260, 260);
+  ellipse(-50 + 800/4 * 3, 300/2, 260, 260);  
+  
+  // fill rings with changing color
+  fill(128);
+  background(128);
   r += PARAM_R;
   g += PARAM_G;
   b += PARAM_B;
-  int r_normed = (int)map(r, 0, 1, 128, 255);
-  int g_normed = (int)map(g, 0, 1, 128, 255);
-  int b_normed = (int)map(b, 0, 1, 128, 255);
-  stroke(color(r_normed, g_normed, b_normed));
+  int r_normed = (int)map(noise(r), 0, 1, 128, 155);
+  int g_normed = (int)map(noise(g), 0, 1, 128, 155);
+  int b_normed = (int)map(noise(b), 0, 1, 128, 155);
+  
+  println(r_normed + "  " + g_normed + "  " + b_normed);
+  stroke(r_normed, g_normed, b_normed);
   
   ellipse(50 + 800/4, 300/2, 260, 260);
   ellipse(-50 + 800/4 * 3, 300/2, 260, 260);
