@@ -5,7 +5,7 @@ float posx, posy, rad;
 
 final float paramX = 0.05;
 final float paramY = 0.01;
-final float paramR = 0.3;
+final float paramR = 0.8;
 
 void setup (){
   size(w, h); 
@@ -16,8 +16,7 @@ void setup (){
   y = 0;
   r = 0;
   smooth();
-  noStroke();
-
+  strokeWeight(2);
 }
 
 void draw(){
@@ -29,7 +28,7 @@ void draw(){
   rad  = noise(r);
   ellipse(map(posx, 0, 1, 0, w), 
           map(posy, 0, 1, 0, h),
-          map(rad, 0, 1, 0, 20),
-          map(rad, 0, 1, 0, 20)
+          map(rad, 0, 1, 1, 60),
+          map(rad, 0, 1, 1, 60)
           );
 }
