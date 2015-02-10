@@ -1,5 +1,7 @@
 void setup (){
   size(800, 300);
+  noStroke();
+  smooth();
 }
 
 void draw(){
