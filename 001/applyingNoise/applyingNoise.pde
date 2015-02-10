@@ -16,6 +16,8 @@ void setup (){
   y = 0;
   r = 0;
   smooth();
+  noStroke();
+
 }
 
 void draw(){
