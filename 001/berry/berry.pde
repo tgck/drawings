@@ -5,6 +5,7 @@ final float PARAM_B = 0.007;
 
 void setup (){
   size(800, 300);
+  colorMode(HSB, 3600, 100, 100);
   blendMode(LIGHTEST);  // p5 2+  https://processing.org/reference/blendMode_.html
   noStroke();
   smooth();
