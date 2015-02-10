@@ -4,13 +4,14 @@ float x, y;
 float posx, posy;
 
 void setup (){
-  size(w, 300);  
+  size(w, 300); 
+ frame.setTitle("applyingNoise: x+=0.05, y+=0.001"); 
   x = 0;
   y = 0;
 }
 
 void draw(){
-  x += 0.1;    // important
+  x += 0.05;    // important
   y += 0.001;  // important
   posx = noise(x);
   posy = noise(y);
