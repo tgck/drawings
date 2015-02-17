@@ -1,7 +1,10 @@
+import java.awt.MouseInfo;  // global mouse
+import java.awt.Point;
+
 float h, s, v;
-final float PARAM_H = 0.001;
-final float PARAM_S = 0.03;
-final float PARAM_V = 0.007;
+final float PARAM_H = 0.001; // hue
+final float PARAM_S = 0.03;  // saturate
+final float PARAM_V = 0.007; // brightness
 int cnt;
 int bgcol;
 
@@ -21,13 +24,17 @@ void setup (){
 }
 
 void draw(){
-  // background(bgcol);
+  background(bgcol);
   
-  h += PARAM_H;
-  s += PARAM_S;
+  Point mouse = MouseInfo.getPointerInfo().getLocation();
+  h = map (mouse.x, 0, displayWidth, 0, 1);
+  s = map (mouse.y, 0, displayHeight, 0, 1);
   v += PARAM_V;
+  
+  windowSetTitle(h + ":" + s); 
+  
   int r_normed = (int)map(noise(h), 0, 1, 0, 3600);
-  int g_normed = (int)map(noise(s), 0, 1, 80, 100);
+  int g_normed = (int)map(noise(s), 0, 1, 0, 100);
   int b_normed = (int)map(noise(v), 0, 1, 80, 100);
   
   // left circle
