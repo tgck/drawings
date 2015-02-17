@@ -1,4 +1,3 @@
-//float r, g, b;
 float h, s, v;
 final float PARAM_H = 0.001;
 final float PARAM_S = 0.03;
