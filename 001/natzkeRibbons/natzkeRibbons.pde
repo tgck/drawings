@@ -1,28 +1,8 @@
-// Dec 2008 
-// http://www.abandonedart.org
-// http://www.zenbullets.com
-//
-// with lots of thanks to Erik Natzke (obviously)
-// http://jot.eriknatzke.com/
-//
-// and James Alliban, who saved me the job of doing the conversion
-// http://jamesalliban.wordpress.com/2008/12/04/2d-ribbons/
-//
-//
-// This work is licensed under a Creative Commons 3.0 License.
-// (Attribution - NonCommerical - ShareAlike)
-// http://creativecommons.org/licenses/by-nc-sa/3.0/
-// 
-// This basically means, you are free to use it as long as you:
-// 1. give http://www.zenbullets.com a credit
-// 2. don't use it for commercial gain
-// 3. share anything you create with it in the same way I have
-//
-// These conditions can be waived if you want to do something groovy with it 
-// though, so feel free to email me via http://www.zenbullets.com
 
 
 //================================= colour sampling
+// 画像ファイルを元に、600の長さを持つcolor配列を作成する。
+// 呼び出しは、setup()の中で一回だけ。
 
 int numcols = 600; // 30x20
 color[] colArr = new color[numcols];
@@ -57,27 +37,37 @@ float _noiseoff;
 int _angle;
 
 //================================= init
+// setup
+// - 色配列の作成
+// - 描画中心の決定
+//
+
 
 void setup() {
-  size(500, 300);
+  //size(500, 300);
+  size(1000, 300);
   smooth(); 
   frameRate(30);
   background(0);
-  
+ 
+  setupReceiver(); // OSC
+
   sampleColour();
   clearBackground();
   
-  _centx = (width / 2);
-  _centy = (height / 2);
+  _centx = (width / 2);   // drawの中で使うのみ. ribbonManagerに渡してはいない
+  _centy = (height / 2);  // 
   restart();
-}    
+} 
 
 void restart() {
+  // これは何に使ってる？
   _noiseoff = random(1);
   _angle = 1; 
-  _a = 3.5;
+  _a = 3.5;     
   _b = _a + (noise(_noiseoff) * 1) - 0.5;
   
+  // マネージャインスタンスの作成。毎回同じ値を引数に渡す。
   ribbonManager = new RibbonManager(_numRibbons, _numParticles, _randomness);   
   ribbonManager.setRadiusMax(12);                 // default = 8
   ribbonManager.setRadiusDivide(10);              // default = 10
@@ -95,6 +85,10 @@ void clearBackground() {
 
 
 //================================= frame loop
+// アニメーション, movement
+// _angleはカウントアップしてる 
+// 
+
 
 void draw() {
   clearBackground();
