@@ -12,6 +12,7 @@ void setupReceiver(){
 	oscP5.plug(this,"setRandomness","/setRandomness");
 	oscP5.plug(this,"setFramerate","/setFramerate");
 	oscP5.plug(this,"resetFramerate","/resetFramerate");
+	oscP5.plug(this,"restart","/restart");	// main
 }
 
 //
@@ -61,9 +62,11 @@ public void resetFramerate(){
 	makeFlash();
 }
 
+// TODO: tunig
 public void makeFlash(){
 	background(188);
 }
+
 /*
 int _numRibbons = 5;  // 3
 int _numParticles = 20; // 40 //  20 is good

@@ -48,14 +48,18 @@ void sampleColour() {
 
 //================================= global vars
 
-int _numRibbons = 5;  // 3
-int _numParticles = 20; // 40 //  20 is good
-float _randomness = .05; // .2
+int _numRibbons = 5;       // 3
+int _numParticles = 20;    // 40 //  20 is good
+float _randomness = .05;   // .2
 RibbonManager ribbonManager;
 
 float _a, _b, _centx, _centy, _x, _y;
 float _noiseoff;
 int _angle;
+
+float myNoiseOffset;
+int ww = 500;
+int hh = 300;
 
 //================================= init
 // setup
@@ -63,10 +67,9 @@ int _angle;
 // - 描画中心の決定
 //
 
-
 void setup() {
-  //size(500, 300);
-  size(1000, 300);
+  size(ww, hh);
+  //size(1000, 300);
   smooth(); 
   frameRate(30);
   background(0);
@@ -85,19 +88,25 @@ void restart() {
   // これは何に使ってる？
   _noiseoff = random(1);
   _angle = 1; 
-  _a = 3.5;     
-  _b = _a + (noise(_noiseoff) * 1) - 0.5;
-  
+ 
+  // 楕円からの歪みの表現 //
+  //_a = 3.5;     
+  //_b = _a + (noise(_noiseoff) * 1) - 0.5;
+  _a = _b = 0; // 歪みなし
+
+  myNoiseOffset = 0.02; // angleの進捗に対するノイズ
+    
   // マネージャインスタンスの作成。毎回同じ値を引数に渡す。
   ribbonManager = new RibbonManager(_numRibbons, _numParticles, _randomness);   
-  ribbonManager.setRadiusMax(12);                 // default = 8
+  ribbonManager.setRadiusMax(12);                 // default =  8
   ribbonManager.setRadiusDivide(10);              // default = 10
-  ribbonManager.setGravity(.0);                   // default = .03
-  ribbonManager.setFriction(1.1);                  // default = 1.1
+  ribbonManager.setGravity(.0);                   // default =  0.03
+  ribbonManager.setFriction(1.1);                 // default =  1.1
   ribbonManager.setMaxDistance(40);               // default = 40
-  ribbonManager.setDrag(2.5);                      // default = 2
-  ribbonManager.setDragFlare(.015);                 // default = .008
-  
+  ribbonManager.setDrag(2.5);                     // default =  2
+  ribbonManager.setDragFlare(.015);               // default =  0.008
+
+  dumpParam();
 }
 
 void clearBackground() {
@@ -114,15 +123,26 @@ void clearBackground() {
 void draw() {
   clearBackground();
   
-  float newx = sin(_a + radians(_angle) + PI / 2) * _centx;  
+  // windowの大きさに合わせてる
+  float newx = sin(_a + radians(_angle) + PI / 2) * _centx;
   float newy = sin(_b + radians(_angle)) * _centy; 
   
-  _angle += (random(180) - 90);
+// TODO: 
+// here is the magic
+//  _angle += (random(180) - 90);
+  _angle += 90 * 0.1;
+
+  //myNoiseOffset += 0.01;
+  //int aaa = (int) map(noise(myNoiseOffset), 0, 1, 0, 30);
+  //_angle += ( aaa - 90);
+
   if (_angle > 360) { _angle = 0; }
   if (_angle < 0) { _angle = 360; }
   
   translate(_centx, _centy);
   ribbonManager.update(newx* 0.5, newy*0.5);
+  drawDebug(newx, newy);
+
 }
 
 
@@ -130,8 +150,29 @@ void draw() {
 //================================= interaction
 
 void mousePressed() { 
-  restart();
+//  restart();
 }
 
+//================================= debug draw
 
+void drawDebug(float x, float y){
+  noFill(); /* 軌道 */
+  stroke(188);
+  ellipse(0, 0, 2*_centx, 2*_centy);
 
+  stroke(color(0, 212, 0));
+  fill(color(2,212,0));
+  ellipse(x, y, 10, 10);
+
+  noFill();
+  line(0, 0, x, y); 
+}
+
+void dumpParam(){
+  println("=============================================");
+  println("_numRibbons:[" + _numRibbons + "]");
+  println("_numParticl:[" + _numParticles + "]");
+  println("_randomness:[" + _randomness + "]");
+  println("_a, _b:[" + _a + "],[" + _b + "]");
+  println("_noiseoff:[" + _noiseoff + "]");
+}
