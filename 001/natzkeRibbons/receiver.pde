@@ -41,7 +41,7 @@ public void setNumParticles(int num){
 public void setRandomness(float flonum){
 	println("### plug event method. received a message /setRandomness.");
 	_randomness = flonum;
-	//restart();
+	restart();
 }
 
 // // FrameRate // // 

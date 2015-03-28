@@ -47,6 +47,8 @@ void sampleColour() {
 }
 
 //================================= global vars
+int ww = 600;
+int hh = 450;
 
 int _numRibbons = 5;       // 3
 int _numParticles = 20;    // 40 //  20 is good
@@ -58,8 +60,7 @@ float _noiseoff;
 int _angle;
 
 float myNoiseOffset;
-int ww = 500;
-int hh = 300;
+
 
 //================================= init
 // setup
