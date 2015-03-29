@@ -21,51 +21,6 @@
 // These conditions can be waived if you want to do something groovy with it 
 // though, so feel free to email me via http://www.zenbullets.com
 
-//================================= colour sampling
-// 画像ファイルを元に、600の長さを持つcolor配列を作成する。
-// 呼び出しは、setup()の中で一回だけ。
-
-int numcols = 600; // 30x20
-color[] colArr = new color[numcols];  // temp
-ArrayList<color[]> colorCollection; // そのうち、色管理クラスを作成する
-
-void sampleColour() {
-  PImage img;
-  // img = loadImage("tricolpalette.jpg");
-  // img = loadImage("moody.jpg");
-  img = loadImage("yellowpalette.jpg");
-  image(img,0,0);
-  int count = 0;
-  for (int x=0; x < img.width; x++){
-    for (int y=0; y < img.height; y++) {
-      if (count < numcols) {
-        color c = get(x,y);
-        colArr[count] = c;
-      }
-      count++;
-    }
-  }  
-}
-
-// 所定のColor配列に、ファイルからColorを詰めていく
-color[] sampleColour(String path){
-  color[] colarr = new color[numcols];
-  PImage img;
-  img = loadImage(path);
-  image(img, 0, 0);
-  //int count = 0;
-  for (int count=0, x=0; x < img.width; x++){
-    for (int y=0; y < img.height; y++) {
-      if (count < numcols) {
-        color c = get(x,y);
-        colarr[count] = c;
-      }
-      count++;
-    }
-  }
-  return colarr;
-}
-
 //================================= global vars
 int ww = 600;
 int hh = 450;
@@ -80,7 +35,6 @@ float _noiseoff;
 int _angle;
 
 float myNoiseOffset;
-
 
 //================================= init
 // setup
@@ -97,15 +51,17 @@ void setup() {
  
   setupReceiver(); // OSC
 
-  // sampleColour(); // old
- 
-  // 色の追加
+ // 色管理
   colorCollection = new ArrayList<color[]>();
   colorCollection.add(sampleColour("tricolpalette.jpg"));
   colorCollection.add(sampleColour("moody.jpg"));
   colorCollection.add(sampleColour("yellowpalette.jpg"));
   println("colorCollection size:[" + colorCollection.size() + "]");
-
+ 
+  // define initial color
+  // sampleColour(); // old
+  changeRibbonColour(0);
+ 
   clearBackground();
   
   _centx = (width / 2);   // drawの中で使うのみ. ribbonManagerに渡してはいない
@@ -114,7 +70,6 @@ void setup() {
 } 
 
 void restart() {
-  // これは何に使ってる？
   _noiseoff = random(1);
   _angle = 1; 
  
@@ -149,7 +104,6 @@ void clearBackground() {
 // _angleはカウントアップしてる 
 // 
 
-
 void draw() {
   clearBackground();
   
@@ -175,8 +129,6 @@ void draw() {
 
 }
 
-
-
 //================================= interaction
 
 void mousePressed() { 
@@ -185,16 +137,13 @@ void mousePressed() {
 void keyPressed() { 
   switch (key) {
     case '1':
-      changeRibbonColour(0);
-      print("aaa"); break;
+      changeRibbonColour(0); break;
     case '2':
-      changeRibbonColour(1);
-      print("bbb"); break;
+      changeRibbonColour(1); break;
     case '3':
-      changeRibbonColour(2);
-      print("aaa"); break;
+      changeRibbonColour(2); break;
     default:
-      print("keydown!"); break;
+      println("keydown!"); break;
   }
 }
 
@@ -211,18 +160,6 @@ void drawDebug(float x, float y){
 
   noFill();
   line(0, 0, x, y); 
-}
-
-void changeRibbonColour(int i){
-  if (i == 0){
-    colArr = colorCollection.get(0);
-  } else if (i == 1) {
-    colArr = colorCollection.get(1);
-  } else {
-    colArr = colorCollection.get(2);
-  }
-  println("color changes.");
-  restart();
 }
 
 void dumpParam(){

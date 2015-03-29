@@ -10,9 +10,14 @@ void setupReceiver(){
 	oscP5.plug(this,"setNumRibbons","/setNumRibbons");
 	oscP5.plug(this,"setNumParticles","/setNumParticles");
 	oscP5.plug(this,"setRandomness","/setRandomness");
+
 	oscP5.plug(this,"setFramerate","/setFramerate");
 	oscP5.plug(this,"resetFramerate","/resetFramerate");
+
+	oscP5.plug(this,"changeRibbonColour","/changeRibbonColour");
+
 	oscP5.plug(this,"restart","/restart");	// main
+
 }
 
 //

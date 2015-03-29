@@ -16,7 +16,7 @@ class RibbonManager {
     this._randomness = _randomness;
     init();
   }
-  
+
   void init() {
     addRibbon();
   }
@@ -24,11 +24,24 @@ class RibbonManager {
   void addRibbon() {
     ribbons = new Ribbon[_numRibbons];
     for (int i = 0; i < _numRibbons; i++) {
-      color ribbonColour = colArr[int(random(numcols))];
+      color ribbonColour = _colArr[int(random(numcols))];
       ribbons[i] = new Ribbon(_numParticles, ribbonColour, _randomness);
     }
   }
-  
+  //
+  // addition
+  // 色指定でリボンを生成する
+  // Deprecated:
+  //   グローバルで色情報を持たないと、メソッドのリレーが激しい。
+  // 
+  void addRibbon(color[] colarr) {
+    ribbons = new Ribbon[_numRibbons];
+    for (int i = 0; i < _numRibbons; i++) {
+      color ribbonColour = colarr[int(random(numcols))]; // 600のうち、任意の1色を選択する
+      ribbons[i] = new Ribbon(_numParticles, ribbonColour, _randomness);
+    }
+  }
+
   void update(float currX, float currY)  {
     for (int i = 0; i < _numRibbons; i++) {
       float randX = currX;
@@ -46,4 +59,16 @@ class RibbonManager {
   void setMaxDistance(int value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].maxDistance = value; } }
   void setDrag(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].drag = value; } }
   void setDragFlare(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].dragFlare = value; } }
+
+  // add
+  // TODO : パラメータ書き換えたあと、パーティクルを生成し直す必要あり。
+  void setWithConfig(ParticleConfig c){
+    setRadiusMax(c.radiusMax);
+    setRadiusDivide(c.radiusDivide);
+    setGravity(c.gravity);
+    setFriction(c.friction);
+    setMaxDistance(c.maxDistance);
+    setDrag(c.drag);
+    setDragFlare(c.dragFlare);
+  }
 }
