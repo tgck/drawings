@@ -99,29 +99,12 @@ void setup() {
 
   // sampleColour(); // old
  
-  // インスタンス作成
-  color[] colArr1 = new color[numcols]; 
-  color[] colArr2 = new color[numcols]; 
-  color[] colArr3 = new color[numcols]; 
-  // 色をロード
-  //colArr1 = sampleColour(colArr1, "tricolpalette.jpg");
-  //colArr2 = sampleColour(colArr2, "moody.jpg");
-  //colArr3 = sampleColour(colArr3, "yellowpalette.jpg");
-  colArr1 = sampleColour("tricolpalette.jpg");
-  colArr2 = sampleColour("moody.jpg");
-  colArr3 = sampleColour("yellowpalette.jpg");
-
+  // 色の追加
   colorCollection = new ArrayList<color[]>();
-//  colorCollection.add(colArr1);
-//  colorCollection.add(colArr2);
-//  colorCollection.add(colArr3);
-
   colorCollection.add(sampleColour("tricolpalette.jpg"));
   colorCollection.add(sampleColour("moody.jpg"));
   colorCollection.add(sampleColour("yellowpalette.jpg"));
-  println("size:" + colorCollection.size());
-
-  print("colorCollection size:[" + colorCollection.size() + "]");
+  println("colorCollection size:[" + colorCollection.size() + "]");
 
   clearBackground();
   
@@ -201,10 +184,15 @@ void mousePressed() {
 }
 void keyPressed() { 
   switch (key) {
-    case 'a':
+    case '1':
+      changeRibbonColour(0);
       print("aaa"); break;
-    case 'b':
+    case '2':
+      changeRibbonColour(1);
       print("bbb"); break;
+    case '3':
+      changeRibbonColour(2);
+      print("aaa"); break;
     default:
       print("keydown!"); break;
   }
@@ -225,9 +213,16 @@ void drawDebug(float x, float y){
   line(0, 0, x, y); 
 }
 
-void changeRibbonCoor(){
-
-
+void changeRibbonColour(int i){
+  if (i == 0){
+    colArr = colorCollection.get(0);
+  } else if (i == 1) {
+    colArr = colorCollection.get(1);
+  } else {
+    colArr = colorCollection.get(2);
+  }
+  println("color changes.");
+  restart();
 }
 
 void dumpParam(){
