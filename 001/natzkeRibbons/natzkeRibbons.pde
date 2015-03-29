@@ -27,7 +27,6 @@
 
 int numcols = 600; // 30x20
 color[] colArr = new color[numcols];  // temp
-
 ArrayList<color[]> colorCollection; // そのうち、色管理クラスを作成する
 
 void sampleColour() {
@@ -49,7 +48,8 @@ void sampleColour() {
 }
 
 // 所定のColor配列に、ファイルからColorを詰めていく
-color[] sampleColour(color[] colarr, String path){
+color[] sampleColour(String path){
+  color[] colarr = new color[numcols];
   PImage img;
   img = loadImage(path);
   image(img, 0, 0);
@@ -104,14 +104,22 @@ void setup() {
   color[] colArr2 = new color[numcols]; 
   color[] colArr3 = new color[numcols]; 
   // 色をロード
-  colArr1 = sampleColour(colArr1, "tricolpalette.jpg");
-  colArr2 = sampleColour(colArr2, "moody.jpg");
-  colArr3 = sampleColour(colArr3, "yellowpalette.jpg");
+  //colArr1 = sampleColour(colArr1, "tricolpalette.jpg");
+  //colArr2 = sampleColour(colArr2, "moody.jpg");
+  //colArr3 = sampleColour(colArr3, "yellowpalette.jpg");
+  colArr1 = sampleColour("tricolpalette.jpg");
+  colArr2 = sampleColour("moody.jpg");
+  colArr3 = sampleColour("yellowpalette.jpg");
 
   colorCollection = new ArrayList<color[]>();
-  colorCollection.add(colArr1);
-  colorCollection.add(colArr2);
-  colorCollection.add(colArr3);
+//  colorCollection.add(colArr1);
+//  colorCollection.add(colArr2);
+//  colorCollection.add(colArr3);
+
+  colorCollection.add(sampleColour("tricolpalette.jpg"));
+  colorCollection.add(sampleColour("moody.jpg"));
+  colorCollection.add(sampleColour("yellowpalette.jpg"));
+  println("size:" + colorCollection.size());
 
   print("colorCollection size:[" + colorCollection.size() + "]");
 
