@@ -56,6 +56,14 @@ void setup() {
   colorCollection.add(sampleColour("tricolpalette.jpg"));
   colorCollection.add(sampleColour("moody.jpg"));
   colorCollection.add(sampleColour("yellowpalette.jpg"));
+  colorCollection.add(sampleColour("pic/A1.jpg"));
+  colorCollection.add(sampleColour("pic/A2.jpg"));
+  colorCollection.add(sampleColour("pic/A3.jpg"));
+  colorCollection.add(sampleColour("pic/D1.jpg"));
+  colorCollection.add(sampleColour("pic/E1.jpg"));
+  colorCollection.add(sampleColour("pic/L1.jpg"));
+  colorCollection.add(sampleColour("pic/P1.jpg"));
+  colorCollection.add(sampleColour("pic/S1.jpg"));
   println("colorCollection size:[" + colorCollection.size() + "]");
  
   // define initial color
@@ -135,15 +143,25 @@ void mousePressed() {
 //  restart();
 }
 void keyPressed() { 
-  switch (key) {
-    case '1':
-      changeRibbonColour(0); break;
-    case '2':
-      changeRibbonColour(1); break;
-    case '3':
-      changeRibbonColour(2); break;
-    default:
-      println("keydown!"); break;
+  if (key == CODED){
+    switch (keyCode) {
+      case UP:
+      case DOWN:
+        changeRibbonColour(); break;
+      default:
+        break;
+    }
+  } else {
+    switch (key) {
+      case '1':
+        changeRibbonColour(0); break;
+      case '2':
+        changeRibbonColour(1); break;
+      case '3':
+        changeRibbonColour(2); break;
+      default:
+        break;
+    }
   }
 }
 

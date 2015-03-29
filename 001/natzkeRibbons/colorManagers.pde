@@ -16,6 +16,7 @@
 final int numcols = 600; // 30x20
 color[] _colArr = new color[numcols];  // global
 ArrayList<color[]> colorCollection; // そのうち、色管理クラスを作成する
+int _colIndex; // 色指定のインデックス
 
 // 所定のColor配列に、ファイルからColorを詰めていく
 color[] sampleColour(String path){
@@ -57,13 +58,27 @@ void sampleColour() {
 // addition
 // 
 void changeRibbonColour(int i){
-  if (i == 0){
-    _colArr = colorCollection.get(0);
-  } else if (i == 1) {
-    _colArr = colorCollection.get(1);
-  } else {
-    _colArr = colorCollection.get(2);
-  }
-  println("color changes.");
-  restart();
+
+	if ( i < 0 || i > colorCollection.size()) {
+ 		println("Error: out of index for color change. colors variations is [" + colorCollection.size() + "]");
+ 		println("     : argument is [" + i + "]");
+ 	}
+ 	_colIndex = i;
+  	_colArr = colorCollection.get(_colIndex);
+	restart();
+
+	println("color changes to index[" + _colIndex + "]");
+}
+
+// 
+// addition
+//	色のローテーション
+// 
+void changeRibbonColour(){
+	_colIndex++;
+	_colIndex %= colorCollection.size();
+	_colArr = colorCollection.get(_colIndex);
+	
+	restart();
+	println("color changes to index[" + _colIndex + "]");
 }
