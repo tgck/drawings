@@ -26,7 +26,9 @@
 // 呼び出しは、setup()の中で一回だけ。
 
 int numcols = 600; // 30x20
-color[] colArr = new color[numcols];
+color[] colArr = new color[numcols];  // temp
+
+ArrayList<color[]> colorCollection; // そのうち、色管理クラスを作成する
 
 void sampleColour() {
   PImage img;
@@ -44,6 +46,24 @@ void sampleColour() {
       count++;
     }
   }  
+}
+
+// 所定のColor配列に、ファイルからColorを詰めていく
+color[] sampleColour(color[] colarr, String path){
+  PImage img;
+  img = loadImage(path);
+  image(img, 0, 0);
+  //int count = 0;
+  for (int count=0, x=0; x < img.width; x++){
+    for (int y=0; y < img.height; y++) {
+      if (count < numcols) {
+        color c = get(x,y);
+        colarr[count] = c;
+      }
+      count++;
+    }
+  }
+  return colarr;
 }
 
 //================================= global vars
@@ -77,7 +97,24 @@ void setup() {
  
   setupReceiver(); // OSC
 
-  sampleColour();
+  // sampleColour(); // old
+ 
+  // インスタンス作成
+  color[] colArr1 = new color[numcols]; 
+  color[] colArr2 = new color[numcols]; 
+  color[] colArr3 = new color[numcols]; 
+  // 色をロード
+  colArr1 = sampleColour(colArr1, "tricolpalette.jpg");
+  colArr2 = sampleColour(colArr2, "moody.jpg");
+  colArr3 = sampleColour(colArr3, "yellowpalette.jpg");
+
+  colorCollection = new ArrayList<color[]>();
+  colorCollection.add(colArr1);
+  colorCollection.add(colArr2);
+  colorCollection.add(colArr3);
+
+  print("colorCollection size:[" + colorCollection.size() + "]");
+
   clearBackground();
   
   _centx = (width / 2);   // drawの中で使うのみ. ribbonManagerに渡してはいない
@@ -108,6 +145,7 @@ void restart() {
   ribbonManager.setDragFlare(.015);               // default =  0.008
 
   dumpParam();
+  dumpManagerParam(); // TODO
 }
 
 void clearBackground() {
@@ -153,6 +191,16 @@ void draw() {
 void mousePressed() { 
 //  restart();
 }
+void keyPressed() { 
+  switch (key) {
+    case 'a':
+      print("aaa"); break;
+    case 'b':
+      print("bbb"); break;
+    default:
+      print("keydown!"); break;
+  }
+}
 
 //================================= debug draw
 
@@ -169,6 +217,11 @@ void drawDebug(float x, float y){
   line(0, 0, x, y); 
 }
 
+void changeRibbonCoor(){
+
+
+}
+
 void dumpParam(){
   println("=============================================");
   println("_numRibbons:[" + _numRibbons + "]");
@@ -176,4 +229,9 @@ void dumpParam(){
   println("_randomness:[" + _randomness + "]");
   println("_a, _b:[" + _a + "],[" + _b + "]");
   println("_noiseoff:[" + _noiseoff + "]");
+}
+
+void dumpManagerParam() {
+  ; // TODO ParticleConfigの内容をprintする
+  ; 
 }
