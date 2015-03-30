@@ -47,6 +47,11 @@ void setup() {
 
   size((int)window.x, (int)window.y); // きれいではないのだが、後でマネージャで管理できるよう、この形態にしておく。
 
+  // enable full screen
+  if (frame != null) {
+    frame.setResizable(true);
+  }
+
   smooth(); 
   frameRate(30);
   background(0);
@@ -191,6 +196,10 @@ void keyPressed() {
       case 'd':
         isDebugView = !isDebugView;
         println("isDebugView:[" + isDebugView + "]");
+        break;
+      case 'f':
+        alterFullScreen();
+        break;
       default:
         break;
     }
@@ -226,7 +235,17 @@ void dumpManagerParam() {
   ;
 }
 
-// 生半可実装。
-// 本来は、関数名の通り、ビューの切替であるべき。
-void alterDebugView(){
+// FIXME
+// サイズ変更できるのだけど、描画系の中心をアップデートする必要あり。
+
+// フルスクリーン化されていなければ、する。
+// されていれば、初期値に戻す
+void alterFullScreen(){
+  if (width != displayWidth) {
+    //size(displayWidth, displayHeight);  // doesn't work
+    frame.setSize(displayWidth, displayHeight);
+  } else {
+    // size((int)window.x, (int)window.y);  // doesn't work
+    frame.setSize((int)window.x, (int)window.y);
+  }
 }
