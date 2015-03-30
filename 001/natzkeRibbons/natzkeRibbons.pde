@@ -22,18 +22,19 @@
 // though, so feel free to email me via http://www.zenbullets.com
 
 //================================= global vars
-int ww = 600;
-int hh = 450;
 
-int _numRibbons = 5;       // 3
-int _numParticles = 20;    // 40 //  20 is good
-float _randomness = .05;   // .2
+final PVector window = new PVector(600, 450);
+
+int _numRibbons = 5;
+int _numParticles = 20;
+float _randomness = .05;
 RibbonManager ribbonManager;
 
 float _a, _b, _centx, _centy, _x, _y;
 float _noiseoff;
 int _angle;
 
+boolean isDebugView;
 float myNoiseOffset;
 
 //================================= init
@@ -43,15 +44,17 @@ float myNoiseOffset;
 //
 
 void setup() {
-  size(ww, hh);
-  //size(1000, 300);
+
+  size((int)window.x, (int)window.y); // きれいではないのだが、後でマネージャで管理できるよう、この形態にしておく。
+
   smooth(); 
   frameRate(30);
   background(0);
  
-  setupReceiver(); // OSC
+  // OSCイベントハンドラ
+  setupReceiver();
 
- // 色管理
+  // 色管理
   colorCollection = new ArrayList<color[]>();
   colorCollection.add(sampleColour("tricolpalette.jpg"));
   colorCollection.add(sampleColour("moody.jpg"));
@@ -70,6 +73,9 @@ void setup() {
   // sampleColour(); // old
   changeRibbonColour(0);
  
+  // debug view
+  isDebugView = true;
+
   clearBackground();
   
   _centx = (width / 2);   // drawの中で使うのみ. ribbonManagerに渡してはいない
@@ -82,12 +88,16 @@ void restart() {
   _angle = 1; 
  
   // 楕円からの歪みの表現 //
-  //_a = 3.5;     
-  //_b = _a + (noise(_noiseoff) * 1) - 0.5;
-  _a = _b = 0; // 歪みなし
 
-  myNoiseOffset = 0.02; // angleの進捗に対するノイズ
-    
+  if (isDebugView){
+    _a = _b = 0; // 歪みなし
+    myNoiseOffset = 0.02; // angleの進捗に対するノイズ
+  } else {
+    _a = 3.5;     
+    _b = _a + (noise(_noiseoff) * 1) - 0.5;
+    // myNoiseOffset = 0.02; // angleの進捗に対するノイズ
+  }
+  
   // マネージャインスタンスの作成。毎回同じ値を引数に渡す。
   ribbonManager = new RibbonManager(_numRibbons, _numParticles, _randomness);   
   ribbonManager.setRadiusMax(12);                 // default =  8
@@ -100,6 +110,13 @@ void restart() {
 
   dumpParam();
   dumpManagerParam(); // TODO
+
+  // debug info
+  frame.setTitle("R:N:R=[" + _numRibbons 
+                    + ":" + _numParticles
+                    + ":" + _randomness + "]"
+                  + " col:" + _colIndex);
+
 }
 
 void clearBackground() {
@@ -119,21 +136,33 @@ void draw() {
   float newx = sin(_a + radians(_angle) + PI / 2) * _centx;
   float newy = sin(_b + radians(_angle)) * _centy; 
   
-// TODO: 
-// here is the magic
-//  _angle += (random(180) - 90);
-  _angle += 90 * 0.1;
+  if (isDebugView) {
 
-  //myNoiseOffset += 0.01;
-  //int aaa = (int) map(noise(myNoiseOffset), 0, 1, 0, 30);
-  //_angle += ( aaa - 90);
+    _angle += 90 * 0.1;
 
-  if (_angle > 360) { _angle = 0; }
-  if (_angle < 0) { _angle = 360; }
+    if (_angle > 360) { _angle = 0; }
+    if (_angle < 0) { _angle = 360; }
   
-  translate(_centx, _centy);
-  ribbonManager.update(newx* 0.5, newy*0.5);
-  drawDebug(newx, newy);
+    translate(_centx, _centy);
+    ribbonManager.update(newx* 0.5, newy*0.5);
+
+    drawDebug(newx, newy);
+
+  } else {
+    // TODO: 
+    // here is the magic
+    _angle += (random(180) - 90);
+
+    //myNoiseOffset += 0.01;
+    //int aaa = (int) map(noise(myNoiseOffset), 0, 1, 0, 30);
+    //_angle += ( aaa - 90);
+
+    if (_angle > 360) { _angle = 0; }
+    if (_angle < 0) { _angle = 360; }
+  
+    translate(_centx, _centy);
+    ribbonManager.update(newx* 0.5, newy*0.5);
+  }
 
 }
 
@@ -159,6 +188,9 @@ void keyPressed() {
         changeRibbonColour(1); break;
       case '3':
         changeRibbonColour(2); break;
+      case 'd':
+        isDebugView = !isDebugView;
+        println("isDebugView:[" + isDebugView + "]");
       default:
         break;
     }
@@ -191,5 +223,10 @@ void dumpParam(){
 
 void dumpManagerParam() {
   ; // TODO ParticleConfigの内容をprintする
-  ; 
+  ;
+}
+
+// 生半可実装。
+// 本来は、関数名の通り、ビューの切替であるべき。
+void alterDebugView(){
 }

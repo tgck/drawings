@@ -7,6 +7,7 @@ NetAddress myRemoteLocation;
 void setupReceiver(){		
 	oscP5 = new OscP5(this,12000);
 	oscP5.plug(this,"test","/test");
+	
 	oscP5.plug(this,"setNumRibbons","/setNumRibbons");
 	oscP5.plug(this,"setNumParticles","/setNumParticles");
 	oscP5.plug(this,"setRandomness","/setRandomness");
