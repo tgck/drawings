@@ -23,7 +23,9 @@
 
 //================================= global vars
 
-final PVector window = new PVector(600, 450);
+//final PVector window = new PVector(600, 450);
+final PVector window = new PVector(640, 480);
+final int FPS = 24;
 
 int _numRibbons = 5;
 int _numParticles = 20;
@@ -36,6 +38,9 @@ int _angle;
 
 boolean isDebugView;
 float myNoiseOffset;
+boolean isRecording = false;
+//boolean isRecording = true;
+String initTime;
 
 //================================= init
 // setup
@@ -45,6 +50,8 @@ float myNoiseOffset;
 
 void setup() {
 
+  initTime = getTime();
+
   size((int)window.x, (int)window.y); // きれいではないのだが、後でマネージャで管理できるよう、この形態にしておく。
 
   // enable full screen
@@ -53,7 +60,7 @@ void setup() {
   }
 
   smooth(); 
-  frameRate(30);
+  frameRate(FPS);
   background(0);
  
   // OSCイベントハンドラ
@@ -79,7 +86,7 @@ void setup() {
   changeRibbonColour(0);
  
   // debug view
-  isDebugView = true;
+  isDebugView = false;
 
   clearBackground();
   
@@ -102,7 +109,7 @@ void restart() {
     _b = _a + (noise(_noiseoff) * 1) - 0.5;
     // myNoiseOffset = 0.02; // angleの進捗に対するノイズ
   }
-  
+
   // マネージャインスタンスの作成。毎回同じ値を引数に渡す。
   ribbonManager = new RibbonManager(_numRibbons, _numParticles, _randomness);   
   ribbonManager.setRadiusMax(12);                 // default =  8
@@ -169,6 +176,15 @@ void draw() {
     ribbonManager.update(newx* 0.5, newy*0.5);
   }
 
+  // 録画
+  if (isRecording) {
+    saveFrame("out/nR_"+initTime+"_######.tif");
+
+    // 出力コマ数の表示(10秒毎)
+    if (frameCount % (10 * FPS) == 0) {
+      println("picture exported.[" + frameCount / (10 * FPS) + "]*10sec." );
+    }
+  }
 }
 
 //================================= interaction
@@ -242,10 +258,18 @@ void dumpManagerParam() {
 // されていれば、初期値に戻す
 void alterFullScreen(){
   if (width != displayWidth) {
-    //size(displayWidth, displayHeight);  // doesn't work
     frame.setSize(displayWidth, displayHeight);
+    _centx = (displayWidth / 2);  // restartの中だとうまくtoggleされないのでframeのサイズと同期するようここにもってきた
+    _centy = (displayHeight / 2); // 同上
   } else {
-    // size((int)window.x, (int)window.y);  // doesn't work
     frame.setSize((int)window.x, (int)window.y);
+    _centx = ((int)window.x / 2); // 同上
+    _centy = ((int)window.y / 2); // 同上
   }
+  restart();
+}
+
+// 現在時刻を文字列形式で返却する
+String getTime(){
+  return ""+year()+month()+day()+"_"+hour()+minute()+second();
 }
