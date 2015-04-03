@@ -82,3 +82,34 @@ void changeRibbonColour(){
 	restart();
 	println("color changes to index[" + _colIndex + "]");
 }
+
+//
+// 背景色の変更
+//
+void changeTargetBGColour(color col){
+  _BGColor = _targetBGColor = col;
+}
+
+// Experimental
+void setRandomBackGround(){
+
+  // アルファ
+  int which = millis()%8;
+  int tmpBaseColor = 0;
+
+  println("setRandomBackGround!");
+  println("debug:whichBGColor=" + which);
+  switch (which) {
+    case 0: tmpBaseColor = #FF8888; break;
+    case 1: tmpBaseColor = #88FF88; break;
+    case 2: tmpBaseColor = #8888FF; break;
+    case 3: tmpBaseColor = #FFFF88; break;
+    case 4: tmpBaseColor = #88FFFF; break;
+    case 5: tmpBaseColor = #888888; break;
+    case 6: tmpBaseColor = #444444; break;
+    case 7: tmpBaseColor = #000000; break;
+  };
+
+  _BGColor = _targetBGColor = color(tmpBaseColor, 40);
+  println("debug:_BGColor=" + _BGColor);
+}

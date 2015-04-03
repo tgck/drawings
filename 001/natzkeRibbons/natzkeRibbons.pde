@@ -42,6 +42,10 @@ boolean isRecording = false;
 //boolean isRecording = true;
 String initTime;
 
+// 背景色
+color _BGColor;
+color _targetBGColor;
+
 //================================= init
 // setup
 // - 色配列の作成
@@ -82,9 +86,9 @@ void setup() {
   println("colorCollection size:[" + colorCollection.size() + "]");
  
   // define initial color
-  // sampleColour(); // old
   changeRibbonColour(0);
- 
+  _BGColor = _targetBGColor = #88FF88;
+
   // debug view
   isDebugView = false;
 
@@ -127,12 +131,13 @@ void restart() {
   frame.setTitle("R:N:R=[" + _numRibbons 
                     + ":" + _numParticles
                     + ":" + _randomness + "]"
-                  + " col:" + _colIndex);
-
+                    + " col:" + _colIndex);
 }
 
+// 背景色設定
 void clearBackground() {
-  background(0);
+ // background(0);
+  background(_BGColor, 22);
 }
 
 
@@ -203,21 +208,16 @@ void keyPressed() {
     }
   } else {
     switch (key) {
-      case '1':
-        changeRibbonColour(0); break;
-      case '2':
-        changeRibbonColour(1); break;
-      case '3':
-        changeRibbonColour(2); break;
+      case '1': changeRibbonColour(0); break;
+      case '2': changeRibbonColour(1); break;
+      case '3': changeRibbonColour(2); break;
+      case 'c': setRandomBackGround(); break;
       case 'd':
         isDebugView = !isDebugView;
         println("isDebugView:[" + isDebugView + "]");
         break;
-      case 'f':
-        alterFullScreen();
-        break;
-      default:
-        break;
+      case 'f': alterFullScreen(); break;
+      default:  break;
     }
   }
 }

@@ -17,6 +17,9 @@ void setupReceiver(){
 
 	oscP5.plug(this,"changeRibbonColour","/changeRibbonColour");
 
+	oscP5.plug(this,"changeTargetBGColour","/changeTargetBGColour");
+	oscP5.plug(this,"setRandomBackGround","/setRandomBackGround"); // experimental
+
 	oscP5.plug(this,"restart","/restart");	// main
 
 }
