@@ -10,7 +10,7 @@ class RibbonParticle {
   float rcx1, rcy1, rcx2, rcy2;                       // the avarage x and y positions between rightPX and rightPX and the right points of the surrounding Particles
   float radius;                                       // thickness of current particle
   float _randomness;
-  Ribbon ribbon;
+  Ribbon ribbon;                                      // 親のconfigを参照するための布石
   
   RibbonParticle(float _randomness, Ribbon ribbon) {
     this._randomness = _randomness;

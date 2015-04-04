@@ -51,7 +51,7 @@ class RibbonManager {
     }
   }
   
-  // まんま、Ribbonインスタンスに受け渡す
+  // まんま、配下のRibbonインスタンスに受け渡す
   void setRadiusMax(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].radiusMax = value; } }
   void setRadiusDivide(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].radiusDivide = value; } }
   void setGravity(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].gravity = value; } }
@@ -60,9 +60,15 @@ class RibbonManager {
   void setDrag(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].drag = value; } }
   void setDragFlare(float value) { for (int i = 0; i < _numRibbons; i++) { ribbons[i].dragFlare = value; } }
 
-  // add
-  // TODO : パラメータ書き換えたあと、パーティクルを生成し直す必要あり。
-  void setWithConfig(ParticleConfig c){
+  //
+  // RibbonConfigインスタンスを用いたパラメータ設定
+  // 
+  // [要検証]パラメータ書き換えたあと、パーティクルを生成し直す必要ある？
+  //
+  void setRibbonConfig(RibbonConfig c){
+
+    println("RibbonManager.setRibbonConfig!");
+
     setRadiusMax(c.radiusMax);
     setRadiusDivide(c.radiusDivide);
     setGravity(c.gravity);

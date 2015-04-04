@@ -20,6 +20,8 @@ void setupReceiver(){
 	oscP5.plug(this,"changeTargetBGColour","/changeTargetBGColour");
 	oscP5.plug(this,"setRandomBackGround","/setRandomBackGround"); // experimental
 
+	oscP5.plug(this,"updateRibbonConfig","/updateRibbonConfig");	// experimental
+
 	oscP5.plug(this,"restart","/restart");	// main
 
 }
@@ -74,6 +76,18 @@ public void resetFramerate(){
 // TODO: tunig
 public void makeFlash(){
 	background(188);
+}
+
+public void updateRibbonConfig(float radMax, float radDiv, float gravity, float friction, 
+								int maxDist, float drag, float dragFlare){
+	
+	println("updateRibbonConfig!");
+
+	// 検討: リボン設定にどの経路で触りにいく？
+	//	メインルーチンでは、Ribbonには触らず、RibbonManagerのメソッドへのアクセスのみ。
+	ribbonManager.setRibbonConfig(
+		new RibbonConfig(radMax, radDiv, gravity, friction,
+			maxDist, drag, dragFlare));
 }
 
 /*

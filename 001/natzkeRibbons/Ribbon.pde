@@ -5,6 +5,11 @@ class Ribbon {
   float _randomness;        // 
   int _numParticles;        // length of the Particle Array (max number of points)
   int particlesAssigned = 0;        // current amount of particles currently in the Particle array - 払い出し済みのparticle数                                
+
+  RibbonParticle[] particles;       // particle array
+  color ribbonColor;
+
+  // RibbonConfig...
   float radiusMax = 8;              // maximum width of ribbon
   float radiusDivide = 10;          // distance between current and next point / this = radius for first half of the ribbon
   float gravity = .03;              // gravity applied to each particle
@@ -12,9 +17,8 @@ class Ribbon {
   int maxDistance = 40;             // if the distance between particles is larger than this the drag comes into effect
   float drag = 2;                   // if distance goes above maxDistance - the points begin to drag. high numbers = less drag 大きいほど引っぱり少ない
   float dragFlare = .008;           // degree to which the drag makes the ribbon flare out
-  RibbonParticle[] particles;       // particle array
-  color ribbonColor;
-  
+  // ...RibbonConfig
+
   Ribbon(int _numParticles, color ribbonColor, float _randomness) {
     this._numParticles = _numParticles;
     this.ribbonColor = ribbonColor;
@@ -22,8 +26,41 @@ class Ribbon {
     init();
   }
   
+  // experimental
+  // [要検証] confを有効とするには、init()でParticleをnewする前に、configを設定する必要がある?
+  Ribbon(int _numParticless, color ribbonColor, float _randomness, RibbonConfig rc){
+    this._numParticles = _numParticles;
+    this.ribbonColor = ribbonColor;
+    this._randomness = _randomness;
+
+    setRibbonConfig(rc);
+    // this.radiusMax    = rc.radiusMax;
+    // this.radiusDivide = rc.radiusDivide;
+    // this.gravity      = rc.gravity;
+    // this.friction     = rc.friction;
+    // this.maxDistance  = rc.maxDistance;
+    // this.drag         = rc.drag;
+    // this.dragFlare    = rc.dragFlare;
+
+    init();
+  }
+
   void init() {
     particles = new RibbonParticle[_numParticles];
+  }
+  
+  // addition
+  void setRibbonConfig(RibbonConfig rc){
+
+    println("-- Ribbon.setRibbonConfig!");
+
+    this.radiusMax    = rc.radiusMax;
+    this.radiusDivide = rc.radiusDivide;
+    this.gravity      = rc.gravity;
+    this.friction     = rc.friction;
+    this.maxDistance  = rc.maxDistance;
+    this.drag         = rc.drag;
+    this.dragFlare    = rc.dragFlare;
   }
   
   // update. 毎フレーム呼ばれる処理
