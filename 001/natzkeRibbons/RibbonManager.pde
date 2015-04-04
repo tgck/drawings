@@ -63,12 +63,10 @@ class RibbonManager {
   //
   // RibbonConfigインスタンスを用いたパラメータ設定
   // 
-  // [要検証]パラメータ書き換えたあと、パーティクルを生成し直す必要ある？
+  // restart(/init)は不要. drawの都度参照されているフィールドなので
   //
   void setRibbonConfig(RibbonConfig c){
-
     println("RibbonManager.setRibbonConfig!");
-
     setRadiusMax(c.radiusMax);
     setRadiusDivide(c.radiusDivide);
     setGravity(c.gravity);

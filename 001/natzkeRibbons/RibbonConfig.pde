@@ -1,4 +1,3 @@
-// tani
 class RibbonConfig {
   float radiusMax;
   float radiusDivide;

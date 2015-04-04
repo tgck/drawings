@@ -251,11 +251,9 @@ void dumpManagerParam() {
   ;
 }
 
-// FIXME
-// サイズ変更できるのだけど、描画系の中心をアップデートする必要あり。
-
 // フルスクリーン化されていなければ、する。
 // されていれば、初期値に戻す
+// ウィンドウの大きさに合わせて、描画系の中心座標を設定しなおす
 void alterFullScreen(){
   if (width != displayWidth) {
     frame.setSize(displayWidth, displayHeight);

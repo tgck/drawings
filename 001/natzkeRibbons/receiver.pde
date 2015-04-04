@@ -6,24 +6,24 @@ NetAddress myRemoteLocation;
 
 void setupReceiver(){		
 	oscP5 = new OscP5(this,12000);
-	oscP5.plug(this,"test","/test");
-	
-	oscP5.plug(this,"setNumRibbons","/setNumRibbons");
-	oscP5.plug(this,"setNumParticles","/setNumParticles");
-	oscP5.plug(this,"setRandomness","/setRandomness");
 
-	oscP5.plug(this,"setFramerate","/setFramerate");
+	oscP5.plug(this,"test","/test");	// dummy
+	oscP5.plug(this,"restart","/restart");	// スケッチの初期化
+	
+	oscP5.plug(this,"setNumRibbons","/setNumRibbons");	// リボン数変更.(restartあり)
+	oscP5.plug(this,"setNumParticles","/setNumParticles");	// パーティクル数変更.(restartあり)
+	oscP5.plug(this,"setRandomness","/setRandomness");	// ランダムネス変更.(restartあり)
+
+	oscP5.plug(this,"setFramerate","/setFramerate");	// フレームレート変更
 	oscP5.plug(this,"resetFramerate","/resetFramerate");
 
-	oscP5.plug(this,"changeRibbonColour","/changeRibbonColour");
+	// 描画系 - 背景
+	oscP5.plug(this,"changeTargetBGColour","/changeTargetBGColour");	// TODO
+	oscP5.plug(this,"setRandomBackGround","/setRandomBackGround");	// 背景色変化
 
-	oscP5.plug(this,"changeTargetBGColour","/changeTargetBGColour");
-	oscP5.plug(this,"setRandomBackGround","/setRandomBackGround"); // experimental
-
-	oscP5.plug(this,"updateRibbonConfig","/updateRibbonConfig");	// experimental
-
-	oscP5.plug(this,"restart","/restart");	// main
-
+	// 描画系 - リボン
+	oscP5.plug(this,"changeRibbonColour","/changeRibbonColour");	// リボン色をスイッチする
+	oscP5.plug(this,"updateRibbonConfig","/updateRibbonConfig");	// パーティクル設定の更新
 }
 
 //
@@ -61,43 +61,25 @@ public void setFramerate(int theRate){
 	if (theRate > 0 && theRate <= 60) {
 		frameRate(theRate);
 		setRandomness(2.0);
-		makeFlash();
 	}
 }
 
 // // FrameRate // // 
 public void resetFramerate(){
 	println("### plug event method. received a message /resetFramerate.");
-	frameRate(24);
+	frameRate(FPS);
 	setRandomness(0.2);
-	makeFlash();
 }
 
-// TODO: tunig
-public void makeFlash(){
-	background(188);
-}
-
+// // RibbonConfig // //
 public void updateRibbonConfig(float radMax, float radDiv, float gravity, float friction, 
 								int maxDist, float drag, float dragFlare){
 	
-	println("updateRibbonConfig!");
+	println("### plug event method. received a message /updateRibbonConfig.");
 
-	// 検討: リボン設定にどの経路で触りにいく？
-	//	メインルーチンでは、Ribbonには触らず、RibbonManagerのメソッドへのアクセスのみ。
+	// 検討[FIXED]: リボン設定にどの経路で触りにいくべきか
+	// --> メインルーチンでは、Ribbonには触らずRibbonManagerのメソッドへのアクセスのみ
 	ribbonManager.setRibbonConfig(
 		new RibbonConfig(radMax, radDiv, gravity, friction,
 			maxDist, drag, dragFlare));
 }
-
-/*
-int _numRibbons = 5;  // 3
-int _numParticles = 20; // 40 //  20 is good
-float _randomness = .05; // .2
-RibbonManager ribbonManager;
-
-float _a, _b, _centx, _centy, _x, _y;
-float _noiseoff;
-int _angle;
-
-*/

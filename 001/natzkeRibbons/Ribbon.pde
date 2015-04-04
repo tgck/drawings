@@ -1,7 +1,7 @@
 //======== ribbon  
 
 class Ribbon {
-  int _numRibbons;          // 未使用では？
+
   float _randomness;        // 
   int _numParticles;        // length of the Particle Array (max number of points)
   int particlesAssigned = 0;        // current amount of particles currently in the Particle array - 払い出し済みのparticle数                                
@@ -26,21 +26,13 @@ class Ribbon {
     init();
   }
   
-  // experimental
-  // [要検証] confを有効とするには、init()でParticleをnewする前に、configを設定する必要がある?
+  // 定義したものの、未使用
   Ribbon(int _numParticless, color ribbonColor, float _randomness, RibbonConfig rc){
     this._numParticles = _numParticles;
     this.ribbonColor = ribbonColor;
     this._randomness = _randomness;
 
     setRibbonConfig(rc);
-    // this.radiusMax    = rc.radiusMax;
-    // this.radiusDivide = rc.radiusDivide;
-    // this.gravity      = rc.gravity;
-    // this.friction     = rc.friction;
-    // this.maxDistance  = rc.maxDistance;
-    // this.drag         = rc.drag;
-    // this.dragFlare    = rc.dragFlare;
 
     init();
   }
@@ -51,9 +43,7 @@ class Ribbon {
   
   // addition
   void setRibbonConfig(RibbonConfig rc){
-
     println("-- Ribbon.setRibbonConfig!");
-
     this.radiusMax    = rc.radiusMax;
     this.radiusDivide = rc.radiusDivide;
     this.gravity      = rc.gravity;
